@@ -1,0 +1,27 @@
+Задача: Доработать RollerAgent.cs для Unity ML-Agents.
+Проблемы текущей версии:
+  1.Reward shaping не обновляется после сбора куба → награда искажается
+  2.Штраф за шаг слишком мал (−0.0005) → агент не стремится к цели
+  3.Нет защиты от зацикливания/стояния на месте
+  4.Все числовые параметры захардкожены
+
+Требования к новой версии:
+  1  Вынести ВСЕ награды в [Header("Reward Settings")] (список значений см. ниже)
+  2  Добавить отслеживание смены цели (поле lastGoalPosition)
+  3  Добавить метод OnGreenCubeCollected() для вызова из GameManager
+  4  Добавить ApplyIdlePenalty() — штраф за бездействие
+  5  Добавить сглаживание действий (low-pass filter) с actionSmoothing = 0.7f
+  6  Добавить упрощённые наблюдения (опционально, флаг useSimplifiedObservations)
+  7  Добавить Safeguards: проверка на NaN, Clamp расстояния, защита от двойного сбора
+
+Значения по умолчанию:
+stepPenalty = -0.01fы
+idlePenalty = -0.02f, idleThreshold = 0.2f, idleFramesRequired = 30
+greenCubeBaseReward = 50f, greenCubeProgressiveBonus = 20f
+redCubePenalty = -15f, fallPenalty = -5f, targetReward = 100f
+shapingGain = 0.05f, shapingMinDelta = 0.01f
+actionSmoothing = 0.7f
+
+Не менять: интерфейс с GameManager (GetNextCrumbPosition(), GetProgress(), IsTargetReachable), метод Heuristic, общую структуру наследования от Agent.
+
+Выдай полный код RollerAgent.cs с комментариями на русском (ключевые моменты).
